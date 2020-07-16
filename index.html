@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+        form{
+            font-family: 'Roboto', sans-serif;
+            width: 35%;
+            height: 80vh;
+            background: linear-gradient(#D2D6DA, #7397B6  );
+            margin: auto;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        h2{
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        section{
+            display: flex;
+            flex-direction: column;
+        }
+        section input{
+            box-sizing: border-box;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            height: 30px;
+        }
+        div:nth-of-type(1){        
+            display: block;
+        }
+        div:nth-of-type(3){
+            margin-top: 30px;
+        }        
+        #palFaktor{
+            width: 100%;
+        }
+        div:nth-of-type(4){
+            margin-top: 20px;
+            text-align: right;
+        }
+        [type=button]{
+            background-color: #B8860B;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        table{
+            display: block;
+            width: 100%;
+            background-color: white;
+            border: none;
+            font-size: .9em;
+            border-collapse: collapse;
+        }
+        tr:first-of-type{
+            background-color: #4682B4;
+            width: 80%;
+            color: white;
+        }
+        th{
+            border: 1px solid black;        
+        }
+        tr th:nth-of-type(1){           /*Wie stylen??????????*/
+            display: grid;
+            grid-template-columns: 50% 25% 25%;
+        }
+       div:last-of-type{
+           text-align: center;
+           color: white;
+            transform: translateY(7vh);
+       }
+    </style>
+</head>
+<body>
+    <form action="">
+        <h2>Kalorien Rechner</h2>
+        <section>
+            <label for="height">Körpergröße</label>
+            <input type="text" name="height" id="height">
+
+            <label for="age">Alter</label>
+            <input type="number" name="age" id="age">
+
+            <label for="weight">Gewicht</label>
+            <input type="number" name="weight" id="weight">
+        </section>
+        <div>
+            <input type="radio" name="gender" id="male" onclick="" value="male" checked>
+            <label for="male">Male</label>
+        </div>
+        <div>
+            <input type="radio" name="gender" id="female" onclick="" value="female">
+            <label for="female">Female</label>
+        </div> 
+        <div>
+            <label for="">Arbeits- und Freizeitaktivitäten</label>
+            <select name="" id="palFaktor">
+                <option value=".95">Schlafen</option>
+                <option value="1.2">Nur sitzen oder liegen</option>
+                <option value="1.5">Ausschließlich sitzende Tätigkeit mit wenig oder keiner körperlichen Aktivität in der Freizeit, z.B. Büroarbeit</option>
+                <option value="1.7">Sitzende Tätigkeit mit zeitweilig gehender oder stehender Tätigkeit, z.B. Studierende, Fließbandarbeiter, Laboranten, Kraftfahrer</option>
+                <option value="1.9">Überwiegend gehende oder stehende Tätigkeit, z.B. Verkäufer, Kellner, Handwerker, Mechaniker, Hausfrauen</option>
+                <option value="2.2">Körperlich anstrengende berufliche Arbeit</option>
+            </select>
+        </div>
+        <div>
+            <input type="button" value="Submit" onclick="kalorinRechner()">
+        </div>
+        <table>
+            <tr>
+                <th></th>
+                <th>kcal</th>
+                <th>kJ</th>
+            </tr>
+            <tr>
+                <th>Grundumsatz</th>
+                <th id="grundUmsatzKcal"></th>
+                <th id="grundUmsatzKj"></th>
+            </tr>
+            <tr>
+                <th>Gesamtumsatz</th>
+                <th id="gesamtUmsatzKcal"></th>
+                <th id="gesamtUmsatzKj"></th>
+            </tr>
+        </table>
+        <div>Made by Yahya</div>
+    </form>
+    <script>
+        function kalorinRechner(){
+            let height = Number(document.getElementById("height").value)
+            console.log(height)
+            let age = Number(document.getElementById("age").value)
+            // console.log(age)
+            let weight = Number(document.getElementById("weight").value)
+            // console.log(weight)
+            let male = document.getElementById("male").checked
+            console.log(male)
+            let female = document.getElementById("female").checked
+            // console.log(female)
+            let grundKcalMale
+            let grundKcalFemale
+
+            let grundKjMale
+            let grundKjFemale
+          
+            const umrechenFaktor = 4.1868
+
+            let palFaktor = document.getElementById("palFaktor").value
+            console.log(palFaktor)
+            
+        //Grundumsatz Kcal und KJ Männer
+        if(male == true){
+            grundKcalMale = 664.7 + (13.7 * weight) + (1.8 * height) - (6.8 * age)
+            document.getElementById("grundUmsatzKcal").innerHTML = (grundKcalMale).toFixed(2)
+
+            grundKjMale = grundKcalMale * umrechenFaktor
+            document.getElementById("grundUmsatzKj").innerHTML = (grundKjMale).toFixed(2)
+            
+            //Gesamtumsatz Kcal und KJ Männer
+            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalMale*palFaktor).toFixed(2)
+            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKjMale*palFaktor).toFixed(2)
+                
+
+        //Grundumsatz Kcal und KJ Frauen
+        } else{
+            grundKcalFemale = 655.1 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
+            document.getElementById("grundUmsatzKcal").innerHTML = (grundKcalFemale).toFixed(2)
+
+            grundKjFemale = grundKcalFemale * umrechenFaktor
+            document.getElementById("grundUmsatzKj").innerHTML = (grundKjFemale).toFixed(2)
+
+            //Gesamtumsatz Kcal und KJ Männer
+            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalFemale*palFaktor).toFixed(2)
+            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKcalFemale*palFaktor).toFixed(2)
+        }
+            
+        }
+    </script>
+</body>
+</html>
