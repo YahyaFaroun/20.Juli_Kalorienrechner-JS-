@@ -54,32 +54,29 @@
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 1em;
-            margin-bottom: 20px;
+            margin-bottom: 5vh;
         }
-        table{
-            display: block;
+        table{ 
             width: 100%;
             background-color: white;
             border: none;
             font-size: .9em;
             border-collapse: collapse;
         }
-        tr:first-of-type{
+        tr{
             background-color: #4682B4;
-            width: 80%;
             color: white;
+            border: 1px solid black;
         }
-        th{
-            border: 1px solid black;        
-        }
-        tr th:nth-of-type(1){           /*Wie stylen??????????*/
-            display: grid;
-            grid-template-columns: 50% 25% 25%;
+        td{
+            color: black;
+            background-color: white;
+            border: 1px solid black;
         }
        div:last-of-type{
            text-align: center;
            color: white;
-            transform: translateY(7vh);
+            transform: translateY(5vh);
        }
     </style>
 </head>
@@ -107,13 +104,15 @@
         <div>
             <label for="">Arbeits- und Freizeitaktivitäten</label>
             <select name="" id="palFaktor">
+                <option value="0">Bitte geben Sie ihre Aktivität an</option>
                 <option value=".95">Schlafen</option>
                 <option value="1.2">Nur sitzen oder liegen</option>
-                <option value="1.5">Ausschließlich sitzende Tätigkeit mit wenig oder keiner körperlichen Aktivität in der Freizeit, z.B. Büroarbeit</option>
-                <option value="1.7">Sitzende Tätigkeit mit zeitweilig gehender oder stehender Tätigkeit, z.B. Studierende, Fließbandarbeiter, Laboranten, Kraftfahrer</option>
-                <option value="1.9">Überwiegend gehende oder stehende Tätigkeit, z.B. Verkäufer, Kellner, Handwerker, Mechaniker, Hausfrauen</option>
+                <option value="1.5">Sitzende Tätigkeit mit wenig körperlichen Aktivität</option>
+                <option value="1.7">Sitzende Tätigkeit mit stehender Tätigkeit</option>
+                <option value="1.9">Überwiegend gehende oder stehende Tätigkeit</option>
                 <option value="2.2">Körperlich anstrengende berufliche Arbeit</option>
             </select>
+            <p id="bitteAktivitaetEingeben" style="color: red;"></p>
         </div>
         <div>
             <input type="button" value="Submit" onclick="kalorinRechner()">
@@ -125,19 +124,22 @@
                 <th>kJ</th>
             </tr>
             <tr>
-                <th>Grundumsatz</th>
-                <th id="grundUmsatzKcal"></th>
-                <th id="grundUmsatzKj"></th>
+                <td>Grundumsatz</td>
+                <td id="grundUmsatzKcal"></td>
+                <td id="grundUmsatzKj"></td>
             </tr>
             <tr>
-                <th>Gesamtumsatz</th>
-                <th id="gesamtUmsatzKcal"></th>
-                <th id="gesamtUmsatzKj"></th>
+                <td>Gesamtumsatz</td>
+                <td id="gesamtUmsatzKcal"></td>
+                <td id="gesamtUmsatzKj"></td>
             </tr>
         </table>
         <div>Made by Yahya</div>
     </form>
     <script>
+        let palFaktor = (document.getElementById("palFaktor"))
+            // console.log(palFaktor)
+
         function kalorinRechner(){
             let height = Number(document.getElementById("height").value)
             console.log(height)
@@ -157,8 +159,14 @@
           
             const umrechenFaktor = 4.1868
 
-            let palFaktor = document.getElementById("palFaktor").value
-            console.log(palFaktor)
+        if (palFaktor.value == '0'){
+            document.getElementById("bitteAktivitaetEingeben").innerHTML = 'Bitte geben Sie ihre Aktivität ein'
+            document.getElementById("grundUmsatzKcal").innerHTML = ''
+            document.getElementById("grundUmsatzKj").innerHTML = ''
+            document.getElementById("gesamtUmsatzKcal").innerHTML = ''
+            document.getElementById("gesamtUmsatzKj").innerHTML = ''
+            return
+        }
             
         //Grundumsatz Kcal und KJ Männer
         if(male == true){
@@ -169,8 +177,8 @@
             document.getElementById("grundUmsatzKj").innerHTML = (grundKjMale).toFixed(2)
             
             //Gesamtumsatz Kcal und KJ Männer
-            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalMale*palFaktor).toFixed(2)
-            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKjMale*palFaktor).toFixed(2)
+            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalMale*palFaktor.value).toFixed(2)
+            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKjMale*palFaktor.value).toFixed(2)
                 
 
         //Grundumsatz Kcal und KJ Frauen
@@ -182,8 +190,8 @@
             document.getElementById("grundUmsatzKj").innerHTML = (grundKjFemale).toFixed(2)
 
             //Gesamtumsatz Kcal und KJ Männer
-            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalFemale*palFaktor).toFixed(2)
-            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKcalFemale*palFaktor).toFixed(2)
+            document.getElementById("gesamtUmsatzKcal").innerHTML = (grundKcalFemale*palFaktor.value).toFixed(2)
+            document.getElementById("gesamtUmsatzKj").innerHTML = (grundKcalFemale*palFaktor.value).toFixed(2)
         }
             
         }
